@@ -36,7 +36,6 @@ let score = 0;
 let timer;
 const timeLimit = 30;
 
-const quizContainer = document.getElementById("quiz");
 const questionEl = document.getElementById("question");
 const optionsContainer = document.getElementById("options");
 const progressEl = document.getElementById("progress");
@@ -44,15 +43,18 @@ const nextBtn = document.getElementById("next-btn");
 const resultContainer = document.getElementById("result");
 const scoreEl = document.getElementById("score");
 const restartBtn = document.getElementById("restart-btn");
-const timerEl = document.getElementById("timer");
 
 function loadQuestion() {
     clearTimeout(timer);
+    if (currentQuestionIndex >= quizInfo.length) {
+        showResults();
+        return;
+    }
+
     const currentQuestion = quizInfo[currentQuestionIndex];
-    
     questionEl.textContent = currentQuestion.question;
     optionsContainer.innerHTML = "";
-    
+
     currentQuestion.options.forEach((option, index) => {
         const button = document.createElement("button");
         button.textContent = option;
@@ -62,14 +64,17 @@ function loadQuestion() {
     });
 
     progressEl.textContent = `Question ${currentQuestionIndex + 1} of ${quizInfo.length}`;
-    nextBtn.style.display = "none";
-    
+    nextBtn.classList.add("hide");
+
     startTimer();
 }
 
 function startTimer() {
     let timeLeft = timeLimit;
+    const timerEl = document.createElement("p");
+    timerEl.id = "timer";
     timerEl.textContent = `Time left: ${timeLeft}s`;
+    optionsContainer.insertBefore(timerEl, optionsContainer.firstChild);
 
     timer = setInterval(() => {
         timeLeft--;
@@ -84,14 +89,11 @@ function startTimer() {
 
 function autoMoveNext() {
     disableOptions();
-    nextBtn.style.display = "block";
+    nextBtn.classList.remove("hide");
 }
 
 function disableOptions() {
-    const buttons = document.querySelectorAll(".option-btn");
-    buttons.forEach(button => {
-        button.disabled = true;
-    });
+    document.querySelectorAll(".option-btn").forEach(button => button.disabled = true);
 }
 
 function checkAnswer(selectedIndex) {
@@ -108,7 +110,7 @@ function checkAnswer(selectedIndex) {
     }
 
     disableOptions();
-    nextBtn.style.display = "block";
+    nextBtn.classList.remove("hide");
 }
 
 nextBtn.addEventListener("click", () => {
@@ -119,12 +121,10 @@ nextBtn.addEventListener("click", () => {
     } else {
         showResults();
     }
-
-    nextBtn.style.display = "none";
 });
 
 function showResults() {
-    quizContainer.classList.add("hide");
+    document.getElementById("quiz").classList.add("hide");
     resultContainer.classList.remove("hide");
     scoreEl.textContent = `You scored ${score} out of ${quizInfo.length}`;
 }
@@ -133,7 +133,7 @@ restartBtn.addEventListener("click", () => {
     currentQuestionIndex = 0;
     score = 0;
     resultContainer.classList.add("hide");
-    quizContainer.classList.remove("hide");
+    document.getElementById("quiz").classList.remove("hide");
     loadQuestion();
 });
 

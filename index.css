@@ -33,24 +33,6 @@ h2 {
     margin: 20px 0;
 }
 
-.option-btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    background-color: #f0f0f0;
-    color: black;
-    border-radius: 5px;
-}
-
-.option-btn:hover {
-    background-color: #d1e7fd;
-}
-
-
 button {
     display: block;
     width: 100%;
