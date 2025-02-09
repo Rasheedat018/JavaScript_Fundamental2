@@ -36,6 +36,7 @@ let score = 0;
 let timer;
 const timeLimit = 30;
 
+const quizContainer = document.getElementById("quiz");
 const questionEl = document.getElementById("question");
 const optionsContainer = document.getElementById("options");
 const progressEl = document.getElementById("progress");
@@ -44,14 +45,21 @@ const resultContainer = document.getElementById("result");
 const scoreEl = document.getElementById("score");
 const restartBtn = document.getElementById("restart-btn");
 
+const timerEl = document.createElement("p");
+timerEl.id = "timer";
+quizContainer.insertBefore(timerEl, progressEl);
+
 function loadQuestion() {
-    clearTimeout(timer);
     if (currentQuestionIndex >= quizInfo.length) {
         showResults();
         return;
     }
 
     const currentQuestion = quizInfo[currentQuestionIndex];
+
+    // Debugging logs
+    console.log("Loading Question:", currentQuestion);
+
     questionEl.textContent = currentQuestion.question;
     optionsContainer.innerHTML = "";
 
@@ -71,10 +79,7 @@ function loadQuestion() {
 
 function startTimer() {
     let timeLeft = timeLimit;
-    const timerEl = document.createElement("p");
-    timerEl.id = "timer";
     timerEl.textContent = `Time left: ${timeLeft}s`;
-    optionsContainer.insertBefore(timerEl, optionsContainer.firstChild);
 
     timer = setInterval(() => {
         timeLeft--;
@@ -93,7 +98,9 @@ function autoMoveNext() {
 }
 
 function disableOptions() {
-    document.querySelectorAll(".option-btn").forEach(button => button.disabled = true);
+    document.querySelectorAll(".option-btn").forEach(button => {
+        button.disabled = true;
+    });
 }
 
 function checkAnswer(selectedIndex) {
@@ -109,7 +116,7 @@ function checkAnswer(selectedIndex) {
         buttons[correctIndex].classList.add("correct");
     }
 
-    disableOptions();
+    buttons.forEach(button => button.disabled = true);
     nextBtn.classList.remove("hide");
 }
 
@@ -124,7 +131,7 @@ nextBtn.addEventListener("click", () => {
 });
 
 function showResults() {
-    document.getElementById("quiz").classList.add("hide");
+    quizContainer.classList.add("hide");
     resultContainer.classList.remove("hide");
     scoreEl.textContent = `You scored ${score} out of ${quizInfo.length}`;
 }
@@ -133,8 +140,11 @@ restartBtn.addEventListener("click", () => {
     currentQuestionIndex = 0;
     score = 0;
     resultContainer.classList.add("hide");
-    document.getElementById("quiz").classList.remove("hide");
+    quizContainer.classList.remove("hide");
     loadQuestion();
 });
 
-loadQuestion();
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Quiz Loaded");
+    loadQuestion();
+});
