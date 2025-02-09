@@ -7,12 +7,12 @@ const quizInfo = [
             "HyperText Management Logic",
             "None of the above"
         ],
-        correctAnswer: 1
+        correctAnswer: 0
     },
     {
         question: "Which CSS property is used to change the text color of an element?",
-        options: ["text-style", "font-color", "text-color", "color"],
-        correctAnswer: 3
+        options: ["text-style", "font-color", "color", "text-color"],
+        correctAnswer: 2
     },
     {
         question: "What is the correct HTML element for inserting a line break?",
