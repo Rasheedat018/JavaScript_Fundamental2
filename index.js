@@ -44,13 +44,12 @@ const nextBtn = document.getElementById("next-btn");
 const resultContainer = document.getElementById("result");
 const scoreEl = document.getElementById("score");
 const restartBtn = document.getElementById("restart-btn");
-const timerEl = document.createElement("p");
-timerEl.id = "timer";
-quizContainer.insertBefore(timerEl, progressEl);
+const timerEl = document.getElementById("timer");
 
 function loadQuestion() {
     clearTimeout(timer);
     const currentQuestion = quizInfo[currentQuestionIndex];
+    
     questionEl.textContent = currentQuestion.question;
     optionsContainer.innerHTML = "";
     
@@ -108,7 +107,7 @@ function checkAnswer(selectedIndex) {
         buttons[correctIndex].classList.add("correct");
     }
 
-    buttons.forEach(button => button.disabled = true);
+    disableOptions();
     nextBtn.style.display = "block";
 }
 
@@ -120,6 +119,8 @@ nextBtn.addEventListener("click", () => {
     } else {
         showResults();
     }
+
+    nextBtn.style.display = "none";
 });
 
 function showResults() {
