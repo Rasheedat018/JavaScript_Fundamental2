@@ -97,7 +97,7 @@ function disableOptions() {
 
 function checkAnswer(selectedIndex) {
     clearInterval(timer);
-    const correctIndex = quizData[currentQuestionIndex].correctAnswer;
+    const correctIndex = quizInfo[currentQuestionIndex].correctAnswer;
     const buttons = document.querySelectorAll(".option-btn");
 
     if (selectedIndex === correctIndex) {
