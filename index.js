@@ -50,7 +50,7 @@ quizContainer.insertBefore(timerEl, progressEl);
 
 function loadQuestion() {
     clearTimeout(timer);
-    const currentQuestion = quizData[currentQuestionIndex];
+    const currentQuestion = quizInfo[currentQuestionIndex];
     questionEl.textContent = currentQuestion.question;
     optionsContainer.innerHTML = "";
     
@@ -62,7 +62,7 @@ function loadQuestion() {
         optionsContainer.appendChild(button);
     });
 
-    progressEl.textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+    progressEl.textContent = `Question ${currentQuestionIndex + 1} of ${quizInfo.length}`;
     nextBtn.style.display = "none";
     
     startTimer();
@@ -115,7 +115,7 @@ function checkAnswer(selectedIndex) {
 nextBtn.addEventListener("click", () => {
     currentQuestionIndex++;
 
-    if (currentQuestionIndex < quizData.length) {
+    if (currentQuestionIndex < quizInfo.length) {
         loadQuestion();
     } else {
         showResults();
@@ -125,7 +125,7 @@ nextBtn.addEventListener("click", () => {
 function showResults() {
     quizContainer.classList.add("hide");
     resultContainer.classList.remove("hide");
-    scoreEl.textContent = `You scored ${score} out of ${quizData.length}`;
+    scoreEl.textContent = `You scored ${score} out of ${quizInfo.length}`;
 }
 
 restartBtn.addEventListener("click", () => {
